@@ -4,6 +4,8 @@ HEATGUARD FastAPI Backend Main Entry Point
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import os
 
 from .database import engine, Base
@@ -54,8 +56,29 @@ app.include_router(analytics.router)
 app.include_router(admin.router)
 app.include_router(simulation.router)
 
+# Locate Frontend Dist Directory
+base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+frontend_dist = os.path.join(base_dir, "frontend", "dist")
+
+if os.path.exists(frontend_dist):
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
 @app.get("/")
-def root_status():
+def read_root():
+    index_path = os.path.join(frontend_dist, "index.html")
+    if os.path.exists(index_path):
+        return FileResponse(index_path)
+    return {
+        "title": "HEATGUARD AI Engine API",
+        "status": "ONLINE",
+        "documentation": "/docs",
+        "provenance_policy": "Strict Data Provenance Transparency Enabled"
+    }
+
+@app.get("/api/status")
+def api_status():
     return {
         "title": "HEATGUARD AI Engine API",
         "status": "ONLINE",
