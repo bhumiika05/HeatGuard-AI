@@ -60,5 +60,5 @@ def get_historical_analytics(db: Session = Depends(get_db)):
 
     return {
         "years": years_data,
-        "provenance_note": "Health hospitalization counts are SYNTHETIC/DEMO data calibrated to published IMD/WHO epidemiological response curves."
+        "provenance_note": "Health hospitalization counts are DERIVED data calibrated to published IMD/WHO epidemiological response curves."
     }

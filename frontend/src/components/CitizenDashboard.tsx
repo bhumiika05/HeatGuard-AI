@@ -42,28 +42,28 @@ export const CitizenDashboard: React.FC = () => {
   return (
     <div className="space-y-8 pb-12 max-w-5xl mx-auto">
       {/* Title Bar */}
-      <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-3">
+      <div className="bg-white border-2 border-emerald-200 p-6 rounded-3xl space-y-3 shadow-md">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
-              <Users className="w-6 h-6 text-emerald-400" />
+            <h1 className="text-2xl font-black text-slate-900 flex items-center gap-2">
+              <Users className="w-7 h-7 text-emerald-600" />
               Citizen Heat Safety Portal
             </h1>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs font-medium text-slate-600 mt-1">
               Hyperlocal heat risk, danger hours, cooling shelter locator & public health precautions
             </p>
           </div>
 
           {/* Location Selector */}
-          <div className="flex items-center gap-2 bg-slate-950 p-2 rounded-xl border border-slate-800">
-            <MapPin className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 bg-emerald-50/80 p-2 rounded-2xl border border-emerald-300 shadow-xs">
+            <MapPin className="w-4 h-4 text-emerald-600" />
             <select
               value={selectedWardId}
               onChange={(e) => setSelectedWardId(Number(e.target.value))}
-              className="bg-transparent text-xs font-bold text-slate-200 focus:outline-none"
+              className="bg-transparent text-xs font-bold text-slate-900 focus:outline-none cursor-pointer"
             >
               {wards.map(w => (
-                <option key={w.id} value={w.id} className="bg-slate-900 text-slate-200">
+                <option key={w.id} value={w.id} className="bg-white text-slate-900 font-bold">
                   {w.name} ({w.zone})
                 </option>
               ))}
@@ -73,107 +73,107 @@ export const CitizenDashboard: React.FC = () => {
       </div>
 
       {loading || !wardDetail ? (
-        <div className="py-20 text-center text-slate-400 text-sm">Loading citizen safety portal...</div>
+        <div className="py-20 text-center text-slate-600 font-bold text-sm">Loading citizen safety portal...</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* CURRENT HEAT HAZARD STATUS */}
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 text-center">
-            <span className="text-xs font-mono text-slate-400 uppercase tracking-wider block">YOUR WARD RISK</span>
+          <div className="bg-white border-2 border-amber-200 p-6 rounded-3xl space-y-4 text-center shadow-md">
+            <span className="text-xs font-black font-mono text-slate-500 uppercase tracking-wider block">YOUR WARD RISK</span>
             
-            <div className={`py-4 px-6 rounded-2xl border text-center font-black text-2xl uppercase shadow-lg ${
-              wardDetail.health_prediction.color_code === 'PURPLE' ? 'bg-purple-500/20 text-purple-300 border-purple-500/40' :
-              wardDetail.health_prediction.color_code === 'RED' ? 'bg-red-500/20 text-red-300 border-red-500/40' :
-              wardDetail.health_prediction.color_code === 'ORANGE' ? 'bg-orange-500/20 text-orange-300 border-orange-500/40' :
-              'bg-amber-500/20 text-amber-300 border-amber-500/40'
+            <div className={`py-4 px-6 rounded-2xl border-2 text-center font-black text-2xl uppercase shadow-sm ${
+              wardDetail.health_prediction.color_code === 'PURPLE' ? 'bg-purple-100 text-purple-900 border-purple-300' :
+              wardDetail.health_prediction.color_code === 'RED' ? 'bg-red-100 text-red-900 border-red-300' :
+              wardDetail.health_prediction.color_code === 'ORANGE' ? 'bg-orange-100 text-orange-900 border-orange-300' :
+              'bg-amber-100 text-amber-900 border-amber-300'
             }`}>
               {wardDetail.health_prediction.health_risk_level} HEAT RISK
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-xs pt-2">
-              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span className="text-slate-400 block text-[10px]">Temperature</span>
-                <strong className="text-amber-400 text-base">{wardDetail.current_weather.temperature_c}°C</strong>
+              <div className="bg-amber-50 p-3 rounded-2xl border border-amber-200">
+                <span className="text-slate-600 block text-[10px] font-bold">Temperature</span>
+                <strong className="text-amber-700 text-lg font-black">{wardDetail.current_weather.temperature_c}°C</strong>
               </div>
-              <div className="bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span className="text-slate-400 block text-[10px]">Heat Index</span>
-                <strong className="text-orange-400 text-base">{wardDetail.thermal_indices.heat_index_c}°C</strong>
+              <div className="bg-orange-50 p-3 rounded-2xl border border-orange-200">
+                <span className="text-slate-600 block text-[10px] font-bold">Heat Index</span>
+                <strong className="text-orange-700 text-lg font-black">{wardDetail.thermal_indices.heat_index_c}°C</strong>
               </div>
             </div>
 
-            <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs space-y-1">
-              <span className="text-slate-400 block font-semibold text-[10px]">DANGER HOURS TODAY:</span>
-              <strong className="text-red-400 text-sm font-bold flex items-center justify-center gap-1">
-                <Clock className="w-4 h-4" /> 12:00 PM – 04:00 PM
+            <div className="bg-rose-50 p-3.5 rounded-2xl border border-rose-200 text-xs space-y-1">
+              <span className="text-rose-900 block font-bold text-[10px] uppercase tracking-wider">DANGER HOURS TODAY:</span>
+              <strong className="text-red-700 text-sm font-black flex items-center justify-center gap-1">
+                <Clock className="w-4 h-4 text-red-600" /> 12:00 PM – 04:00 PM
               </strong>
             </div>
           </div>
 
           {/* WHAT SHOULD I DO? PUBLIC PRECAUTIONS */}
-          <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl space-y-4 md:col-span-2">
-            <h3 className="font-bold text-slate-100 text-sm flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+          <div className="bg-white border-2 border-emerald-200 p-6 rounded-3xl space-y-4 md:col-span-2 shadow-md">
+            <h3 className="font-black text-slate-900 text-sm flex items-center gap-2 text-base">
+              <ShieldCheck className="w-5 h-5 text-emerald-600" />
               What Should You Do? (Authoritative Public Health Guidance)
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-                <strong className="text-amber-400 block">💧 Stay Hydrated</strong>
-                <p className="text-slate-300 text-[11px]">Drink oral rehydration fluids (ORS), buttermilk, or lemon water every 30 minutes even if not thirsty.</p>
+              <div className="bg-amber-50/60 p-4 rounded-2xl border border-amber-200 space-y-1">
+                <strong className="text-amber-900 block font-bold text-sm">💧 Stay Hydrated</strong>
+                <p className="text-slate-700 text-[11px] font-medium">Drink oral rehydration fluids (ORS), buttermilk, or lemon water every 30 minutes even if not thirsty.</p>
               </div>
 
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-                <strong className="text-amber-400 block">👕 Clothing & Cover</strong>
-                <p className="text-slate-300 text-[11px]">Wear loose, light-colored cotton clothing. Cover head with hat, umbrella, or wet cloth outdoors.</p>
+              <div className="bg-orange-50/60 p-4 rounded-2xl border border-orange-200 space-y-1">
+                <strong className="text-orange-900 block font-bold text-sm">👕 Clothing & Cover</strong>
+                <p className="text-slate-700 text-[11px] font-medium">Wear loose, light-colored cotton clothing. Cover head with hat, umbrella, or wet cloth outdoors.</p>
               </div>
 
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-                <strong className="text-amber-400 block">🛑 Avoid Peak Sun</strong>
-                <p className="text-slate-300 text-[11px]">Avoid direct outdoor exertion during peak solar radiation (12:00 PM - 04:00 PM).</p>
+              <div className="bg-yellow-50/60 p-4 rounded-2xl border border-yellow-200 space-y-1">
+                <strong className="text-yellow-900 block font-bold text-sm">🛑 Avoid Peak Sun</strong>
+                <p className="text-slate-700 text-[11px] font-medium">Avoid direct outdoor exertion during peak solar radiation (12:00 PM - 04:00 PM).</p>
               </div>
 
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-1">
-                <strong className="text-red-400 block">🚨 Heat Stroke Warning Signs</strong>
-                <p className="text-slate-300 text-[11px]">Dizziness, high body temp (&gt;40°C), dry skin without sweating, confusion. Call 102 / 108 immediately.</p>
+              <div className="bg-rose-50/60 p-4 rounded-2xl border border-rose-200 space-y-1">
+                <strong className="text-rose-900 block font-bold text-sm">🚨 Heat Stroke Warning Signs</strong>
+                <p className="text-slate-700 text-[11px] font-medium">Dizziness, high body temp (&gt;40°C), dry skin without sweating, confusion. Call 102 / 108 immediately.</p>
               </div>
             </div>
 
             {/* NEAREST COOLING CENTRE LOCATOR */}
-            <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
-              <h4 className="font-bold text-slate-200 text-xs flex items-center gap-2">
-                <Navigation className="w-4 h-4 text-cyan-400" />
+            <div className="bg-sky-50/70 p-4 rounded-2xl border border-sky-200 space-y-3">
+              <h4 className="font-bold text-slate-900 text-xs flex items-center gap-2">
+                <Navigation className="w-4 h-4 text-sky-600" />
                 Nearest Cooling Centre / Relief Shelter
               </h4>
 
               {wardDetail.cooling_centres && wardDetail.cooling_centres.length > 0 ? (
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
                   <div>
-                    <strong className="text-emerald-400 block text-sm">{wardDetail.cooling_centres[0].name}</strong>
-                    <span className="text-slate-400 text-[11px]">Capacity: {wardDetail.cooling_centres[0].capacity} people | Air Conditioned & Cold Water</span>
+                    <strong className="text-sky-900 block text-sm font-extrabold">{wardDetail.cooling_centres[0].name}</strong>
+                    <span className="text-slate-600 text-[11px] font-medium">Capacity: {wardDetail.cooling_centres[0].capacity} people | Air Conditioned & Cold Water</span>
                   </div>
-                  <span className="px-3 py-1 rounded bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
+                  <span className="px-3 py-1 rounded-full bg-emerald-200 text-emerald-900 text-xs font-bold border border-emerald-300">
                     ACTIVE RELIEF
                   </span>
                 </div>
               ) : (
-                <p className="text-xs text-slate-400">Nearest cooling hub active at Connaught Place Central Park Shelter (1.8 km).</p>
+                <p className="text-xs text-slate-600 font-medium">Nearest cooling hub active at Connaught Place Central Park Shelter (1.8 km).</p>
               )}
             </div>
 
             {/* SMS ALERT SIGNUP */}
-            <form onSubmit={handleSubscribe} className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-              <strong className="text-xs text-slate-200 block">Subscribe to Free Ward SMS / WhatsApp Heat Alerts:</strong>
+            <form onSubmit={handleSubscribe} className="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 space-y-2">
+              <strong className="text-xs text-slate-900 block font-bold">Subscribe to Free Ward SMS / WhatsApp Heat Alerts:</strong>
               <div className="flex gap-2">
                 <input
                   type="tel"
                   placeholder="Enter 10-digit Mobile Number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="bg-slate-900 border border-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg flex-1 focus:outline-none focus:border-amber-500"
+                  className="bg-white border-2 border-amber-200 text-slate-900 font-medium text-xs px-3 py-2 rounded-xl flex-1 focus:outline-none focus:border-amber-500 shadow-xs"
                 />
                 <button
                   type="submit"
                   disabled={subscribed}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg transition"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl transition shadow-xs"
                 >
                   {subscribed ? 'Subscribed ✓' : 'Subscribe'}
                 </button>

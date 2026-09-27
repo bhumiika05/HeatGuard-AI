@@ -1,6 +1,6 @@
 """
 HEATGUARD Simulation Scenario Engine
-Allows instant scenario shifts (NORMAL, HEATWAVE, EXTREME_HEATWAVE) for SIH judging and demo mode.
+Allows instant scenario shifts (NORMAL, HEATWAVE, EXTREME_HEATWAVE) for Hackathon demo mode.
 Recalculates micro-weather, thermal stress indices, ML predictions, alerts, and recommended interventions.
 """
 

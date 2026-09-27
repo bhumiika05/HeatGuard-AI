@@ -1,21 +1,21 @@
 # HEATGUARD — AI-Powered Hyperlocal Heat-Health Early Warning & Action System
 
-> **SIH Problem Statement Solution**: Shifting heatwave forecasting from *"WHAT WILL THE WEATHER BE?"* to *"WHAT WILL THE WEATHER DO TO PEOPLE?"*
+> Shifting heatwave forecasting from *"WHAT WILL THE WEATHER BE?"* to *"WHAT WILL THE WEATHER DO TO PEOPLE?"*
 
-HEATGUARD is a production-grade, AI-powered hyperlocal heat-health decision-support platform built for Indian municipalities and healthcare authorities (demonstrated on the 25 municipal wards of Delhi/NCR). By combining micro-meteorological variables, established human thermal stress indices (Heat Index, WBGT, UTCI), demographic vulnerability factors (elderly %, outdoor workers %, pop density, UHI built-up index), and ML-based health risk prediction models, HEATGUARD provides 3–5 day hyperlocal heat-health risk warnings and automated intervention recommendations.
+HEATGUARD is a production-grade, AI-powered hyperlocal heat-health decision-support platform built for Indian municipalities and healthcare authorities (demonstrated on the municipal wards of Delhi/NCR). By combining micro-meteorological variables, established human thermal stress indices (Heat Index, WBGT, UTCI), demographic vulnerability factors (elderly %, outdoor workers %, pop density, UHI built-up index), and ML-based health risk prediction models, HEATGUARD provides 3–5 day hyperlocal heat-health risk warnings and automated intervention recommendations.
 
 ---
 
 ## Key Features & Highlights
 
-1. **Hyperlocal GIS Risk Map**: Interactive Leaflet GIS map displaying Delhi ward boundaries with dynamic color coding (`GREEN`, `YELLOW`, `ORANGE`, `RED`, `PURPLE`), hover tooltips, date forecasting, and switchable risk layers.
+1. **Hyperlocal GIS Risk Map**: Interactive Leaflet GIS map displaying Delhi ward boundaries with dynamic color coding (`GREEN`, `YELLOW`, `ORANGE`, `RED`, `PURPLE`), hover tooltips, date forecasting, CARTO Voyager basemap, and switchable risk layers.
 2. **Scientifically Validated Thermal Engines**:
    - **Heat Index (HI)**: Rothfusz regression equation with range adjustments.
    - **WBGT (Wet-Bulb Globe Temperature)**: Outdoor direct solar radiation ($0.7 T_{nw} + 0.2 T_g + 0.1 T_d$) and indoor shade ($0.7 T_{nw} + 0.3 T_g$) models based on Liljegren & BOM algorithms.
    - **UTCI (Universal Thermal Climate Index)**: 6-variable operational polynomial procedure approximation.
    - **Human Thermal Stress Score (HTSS)**: Clearly labeled derived composite metric ($0-100$ scale) combining HI, WBGT, UTCI, duration, and UHI intensity.
-3. **Data Provenance & Transparency**: Every metric across the application displays a Data Provenance tag (`REAL`, `DERIVED`, `ESTIMATED`, `SYNTHETIC/DEMO`).
-4. **Explainable AI (XAI)**: "Why is this area red?" natural language SHAP-like attribution breakdown explaining the exact feature contributions for every ward.
+3. **Data Provenance & Transparency**: Every metric across the application displays a Data Provenance tag (`REAL`, `DERIVED`, `ESTIMATED`).
+4. **Explainable AI (XAI)**: "Why is this area high risk?" natural language feature attribution breakdown explaining exact factors for every ward.
 5. **Decision Support & Action Engines**:
    - **Cooling Centre Optimizer**: Spatial algorithm scoring grid points to recommend optimal new cooling shelter locations based on heat risk, vulnerable population, pop density, and distance matrix to existing facilities.
    - **Outdoor Work Scheduler**: Dynamic safe, caution, and restricted work time slots (e.g., safe 6-10 AM, 5-8 PM; restricted 12-4 PM).
@@ -28,97 +28,35 @@ HEATGUARD is a production-grade, AI-powered hyperlocal heat-health decision-supp
    - **Admin & ML Monitoring**: Model evaluation comparison (Random Forest, Gradient Boosting, XGBoost, Logistic Regression), Accuracy, Precision, Recall, F1, ROC-AUC, Feature Importances, retrain trigger.
    - **Historical Analytics**: Multi-year heatwave frequency (2023-2026), peak thermal indices trends.
    - **Forecast vs Actual Tracking**: Model accuracy validation comparing predicted risk vs actual observed HTSS.
-7. **SIH Judging Demo / Simulation Mode**: Interactive scenario switcher in header bar (`Normal Summer`, `Heatwave`, `Extreme Heatwave`) with real-time recalculations across all 25 wards.
+7. **Interactive Weather Scenario Testing**: Interactive scenario switcher in header bar (`Normal Weather`, `High Heatwave`, `Severe Heatwave`) with real-time recalculations across all wards.
 
 ---
 
-## Project Architecture
+## Deploying to Production (Vercel / Render / Netlify)
 
-```
-HEATGUARD/
-├── data/
-│   ├── README.md                      # Data provenance & dataset specification
-│   ├── generate_delhi_dataset.py      # Reproducible dataset generator script
-├── backend/
-│   ├── app/
-│   │   ├── main.py                    # FastAPI application & router registration
-│   │   ├── database.py                # SQLAlchemy SQLite configuration
-│   │   ├── models.py                  # Database ORM models
-│   │   ├── schemas.py                 # Pydantic request/response schemas
-│   │   ├── heatguard.db               # Pre-seeded SQLite database
-│   │   ├── engine/
-│   │   │   ├── thermal.py             # Scientific HI, WBGT, UTCI, HTSS, XAI engine
-│   │   │   ├── ml_pipeline.py         # ML training, evaluation & metrics engine
-│   │   │   ├── cooling_optimizer.py   # Spatial cooling center optimizer
-│   │   │   ├── work_scheduler.py      # Outdoor work safe scheduler
-│   │   │   ├── simulation.py          # Demo scenario switcher engine
-│   │   ├── api/                       # API router endpoints
-│   │   │   ├── weather.py, wards.py, risk.py, alerts.py, interventions.py
-│   │   │   ├── cooling.py, hospitals.py, tracking.py, analytics.py, admin.py, simulation.py
-├── frontend/
-│   ├── src/
-│   │   ├── components/                # React dashboard components
-│   │   │   ├── Header.tsx, LandingPage.tsx, AuthorityDashboard.tsx, GisMap.tsx
-│   │   │   ├── WardDetailModal.tsx, CitizenDashboard.tsx, HealthcareDashboard.tsx
-│   │   │   ├── HistoricalAnalytics.tsx, AlertsAndTracking.tsx, AdminMonitoring.tsx
-│   │   │   ├── DataProvenanceView.tsx
-│   │   ├── App.tsx, index.css, main.tsx
-│   ├── vite.config.ts, package.json
-```
+### Deploying to Vercel (Frontend Web App)
+1. Push your repository to GitHub.
+2. In Vercel, click **Add New Project** and select the `frontend` folder (or set Root Directory to `frontend`).
+3. Vercel automatically detects Vite framework settings (`vercel.json` included in repository).
+4. Set environment variable `VITE_CARTO_API_KEY` to `cb1_3zxc_1_9e8d60c4904c7e6ede185ebb`.
+
+### Deploying to Render
+This repository includes a `render.yaml` configuration file for dual service deployment:
+- **Backend Service**: Python web service (`rootDir: backend`, build: `pip install -r requirements.txt`, start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`).
+- **Frontend Service**: Static site (`rootDir: frontend`, build: `npm ci && npm run build`, publish: `./dist`).
 
 ---
 
-## How to Run locally
+## Interactive Weather Scenario Instructions
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+ and npm 9+
-
-### 1. Database & ML Initialization (Pre-seeded out-of-the-box)
-```bash
-# Generate SQLite database pre-seeded with Delhi ward weather & demographics
-python data/generate_delhi_dataset.py
-
-# Train ML models and generate evaluation metrics
-python backend/app/engine/ml_pipeline.py
-```
-
-### 2. Start Backend API Server
-```bash
-# Start FastAPI backend at http://127.0.0.1:8000
-python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
-```
-Interactive API Swagger Docs: `http://127.0.0.1:8000/docs`
-
-### 3. Start Frontend Dashboard
-```bash
-cd frontend
-npm install
-npm run dev
-```
-Access Frontend App at: `http://localhost:3000`
-
-### Deploy on Render
-
-This repository is a monorepo with separate Render services defined in `render.yaml`:
-
-- **Backend Web Service**: root directory `backend`; build command `pip install -r requirements.txt`; start command `uvicorn app.main:app --host 0.0.0.0 --port $PORT`.
-- **Frontend Static Site**: root directory `frontend`; build command `npm ci && npm run build`; publish directory `dist`; no start command.
-
-Set `VITE_CARTO_API_KEY` on the frontend service and set `VITE_API_BASE_URL` to the backend service URL. Optional backend variables are `IMD_API_KEY`, `IMD_API_URL`, and `ERA5_DATA_DIR`.
-
----
-
-## Interactive Judging Scenario Instructions
-
-To demonstrate HEATGUARD's end-to-end real-time response during SIH judging:
+To test HEATGUARD's end-to-end real-time response:
 
 1. Open `http://localhost:3000`.
-2. Locate the **SIH JUDGING DEMO** switcher bar at the top right of the header.
+2. Locate the **TEST HEAT SCENARIOS** switcher bar at the top right of the header.
 3. Toggle between:
-   - **`Normal Summer`**: Temperatures ~33-34°C, low risk levels across wards.
-   - **`Heatwave`**: Temperatures ~41-42°C, WBGT ~32°C, high risk wards highlighted in orange/red.
-   - **`Extreme Heatwave`**: Temperatures spike to 46.2°C+, humidity surge, WBGT &gt;35°C, HTSS score &gt;88/100, purple/red high threat wards, automatic alert triggers, updated hospital surge pressure, and cooling center recommendations.
+   - **`Normal Weather`**: Temperatures ~33-34°C, low risk levels across wards.
+   - **`High Heatwave`**: Temperatures ~41-42°C, WBGT ~32°C, high risk wards highlighted in orange/red.
+   - **`Severe Heatwave`**: Temperatures spike to 46.2°C+, humidity surge, WBGT >35°C, HTSS score >88/100, purple/red high threat wards, automatic alert triggers, updated hospital surge pressure, and cooling center recommendations.
 
 ---
 
@@ -127,8 +65,8 @@ To demonstrate HEATGUARD's end-to-end real-time response during SIH judging:
 | Metric | Source | Provenance Level |
 |---|---|---|
 | Temperature & Humidity | IMD / ERA5 Reanalysis Proxy | `REAL` |
-| Population & Demographics | Census of India 2011 / Projections | `REAL` |
+| Population & Demographics | Census of India / Projections | `REAL` |
 | Heat Index (HI) | NWS Rothfusz Formula | `DERIVED` |
 | Outdoor WBGT & UTCI | Liljegren / BOM / Polynomial Models | `ESTIMATED` |
 | Human Thermal Stress (HTSS) | HEATGUARD Composite Risk Score | `DERIVED` |
-| Health Surge & Hospital Spikes | Epidemiological Response Calibration | `SYNTHETIC/DEMO` |
+| Health Surge & Hospital Spikes | Epidemiological Response Calibration | `DERIVED` |

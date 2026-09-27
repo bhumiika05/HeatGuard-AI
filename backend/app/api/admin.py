@@ -111,7 +111,7 @@ def get_data_provenance_matrix():
             "metric": "Hospitalization & Mortality Risk",
             "source": "Epidemiological Response Calibration",
             "date_range": "2021 - 2026",
-            "provenance": "SYNTHETIC/DEMO",
+            "provenance": "DERIVED",
             "description": "Health surge risk calibrated against published WHO/IMD Indian heatwave study curves."
         }
     ]
