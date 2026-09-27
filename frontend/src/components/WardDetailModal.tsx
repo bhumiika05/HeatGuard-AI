@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, ShieldAlert, Thermometer, Wind, Droplets, Sun, Activity, Clock, CheckCircle, AlertTriangle, FileText, Send } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 interface WardDetailModalProps {
   wardId: number | null;
@@ -14,7 +15,7 @@ export const WardDetailModal: React.FC<WardDetailModalProps> = ({ wardId, onClos
   useEffect(() => {
     if (!wardId) return;
     setLoading(true);
-    fetch(`/api/wards/${wardId}/detail`)
+    apiFetch(`/api/wards/${wardId}/detail`)
       .then(res => res.json())
       .then(data => {
         setDetail(data);
@@ -30,7 +31,7 @@ export const WardDetailModal: React.FC<WardDetailModalProps> = ({ wardId, onClos
 
   const handleSendSimulatedAlert = () => {
     if (!detail) return;
-    fetch('/api/alerts/send', {
+    apiFetch('/api/alerts/send', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Activity, ShieldAlert, CheckCircle2, Clock, Send, CheckCheck, TrendingUp, Check } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { apiFetch } from '../lib/api';
 
 export const AlertsAndTracking: React.FC = () => {
   const [alerts, setAlerts] = useState<any[]>([]);
@@ -10,9 +11,9 @@ export const AlertsAndTracking: React.FC = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/alerts').then(res => res.json()),
-      fetch('/api/interventions').then(res => res.json()),
-      fetch('/api/tracking/forecast-vs-actual').then(res => res.json())
+      apiFetch('/api/alerts').then(res => res.json()),
+      apiFetch('/api/interventions').then(res => res.json()),
+      apiFetch('/api/tracking/forecast-vs-actual').then(res => res.json())
     ])
       .then(([alertData, interData, valData]) => {
         setAlerts(alertData || []);
@@ -23,7 +24,7 @@ export const AlertsAndTracking: React.FC = () => {
   }, []);
 
   const handleAcknowledge = (id: number) => {
-    fetch(`/api/alerts/${id}/acknowledge`, { method: 'POST' })
+    apiFetch(`/api/alerts/${id}/acknowledge`, { method: 'POST' })
       .then(res => res.json())
       .then(() => {
         setAlerts(prev => prev.map(a => a.id === id ? { ...a, status: 'ACKNOWLEDGED' } : a));

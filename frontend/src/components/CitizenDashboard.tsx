@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, MapPin, Sun, Clock, ShieldCheck, PhoneCall, AlertTriangle, Navigation, CheckCircle2 } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 export const CitizenDashboard: React.FC = () => {
   const [wards, setWards] = useState<any[]>([]);
@@ -10,7 +11,7 @@ export const CitizenDashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('/api/wards')
+    apiFetch('/api/wards')
       .then(res => res.json())
       .then(data => {
         setWards(data || []);
@@ -23,7 +24,7 @@ export const CitizenDashboard: React.FC = () => {
   useEffect(() => {
     if (!selectedWardId) return;
     setLoading(true);
-    fetch(`/api/wards/${selectedWardId}/detail`)
+    apiFetch(`/api/wards/${selectedWardId}/detail`)
       .then(res => res.json())
       .then(data => {
         setWardDetail(data);

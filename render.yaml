@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: heatguard-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.11"
+      - key: IMD_API_KEY
+        sync: false
+      - key: IMD_API_URL
+        value: https://api.imd.gov.in/v1/weather
+      - key: ERA5_DATA_DIR
+        value: data/era5
+
+  - type: web
+    name: heatguard-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_CARTO_API_KEY
+        sync: false
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: heatguard-api
+          property: host

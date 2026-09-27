@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert, AlertTriangle, Thermometer, Wind, Droplets, Sun, Activity, Users, ArrowRight, Zap, CheckCircle2, Clock } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 interface AuthorityDashboardProps {
   onSelectWard: (wardId: number) => void;
@@ -17,10 +18,10 @@ export const AuthorityDashboard: React.FC<AuthorityDashboardProps> = ({ onSelect
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch('/api/risk/summary').then(res => res.json()),
-      fetch('/api/risk/predictions').then(res => res.json()),
-      fetch('/api/cooling-centres/recommendations?top_n=3').then(res => res.json()),
-      fetch('/api/interventions').then(res => res.json())
+      apiFetch('/api/risk/summary').then(res => res.json()),
+      apiFetch('/api/risk/predictions').then(res => res.json()),
+      apiFetch('/api/cooling-centres/recommendations?top_n=3').then(res => res.json()),
+      apiFetch('/api/interventions').then(res => res.json())
     ])
       .then(([summaryData, predData, coolData, interData]) => {
         setRiskSummary(summaryData);

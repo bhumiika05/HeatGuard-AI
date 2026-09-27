@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { Map as MapIcon, Layers } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 // Fix default Leaflet marker icon links
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -42,9 +43,9 @@ export const GisMap: React.FC<GisMapProps> = ({ onSelectWard }) => {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/wards/geojson').then(res => res.json()),
-      fetch('/api/hospitals').then(res => res.json()),
-      fetch('/api/cooling-centres').then(res => res.json())
+      apiFetch('/api/wards/geojson').then(res => res.json()),
+      apiFetch('/api/hospitals').then(res => res.json()),
+      apiFetch('/api/cooling-centres').then(res => res.json())
     ])
       .then(([geoData, hospData, coolData]) => {
         setGeoJsonData(geoData);

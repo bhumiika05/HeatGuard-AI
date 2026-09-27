@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FileText, Database, ShieldCheck, Info } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 export const DataProvenanceView: React.FC = () => {
   const [matrix, setMatrix] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('/api/admin/data-provenance')
+    apiFetch('/api/admin/data-provenance')
       .then(res => res.json())
       .then(data => {
         setMatrix(data || []);

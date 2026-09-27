@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Settings, Cpu, RefreshCw, CheckCircle, Database, BarChart3 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { apiFetch } from '../lib/api';
 
 export const AdminMonitoring: React.FC = () => {
   const [metrics, setMetrics] = useState<any[]>([]);
@@ -10,7 +11,7 @@ export const AdminMonitoring: React.FC = () => {
 
   const fetchMetrics = () => {
     setLoading(true);
-    fetch('/api/admin/model-metrics')
+    apiFetch('/api/admin/model-metrics')
       .then(res => res.json())
       .then(data => {
         setMetrics(data || []);
@@ -24,7 +25,7 @@ export const AdminMonitoring: React.FC = () => {
 
   const handleRetrain = () => {
     setRetraining(true);
-    fetch('/api/admin/retrain-models', { method: 'POST' })
+    apiFetch('/api/admin/retrain-models', { method: 'POST' })
       .then(res => res.json())
       .then(resData => {
         setRetrainResult(resData);

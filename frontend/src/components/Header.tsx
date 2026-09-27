@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldAlert, Activity, Map, Users, Stethoscope, Settings, BarChart2, FileText, Zap, CheckCircle, AlertTriangle } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 interface HeaderProps {
   activeTab: string;
@@ -17,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [systemStatus, setSystemStatus] = useState<any>(null);
 
   useEffect(() => {
-    fetch('/api/admin/system-status')
+    apiFetch('/api/admin/system-status')
       .then(res => res.json())
       .then(data => setSystemStatus(data))
       .catch(() => setSystemStatus(null));

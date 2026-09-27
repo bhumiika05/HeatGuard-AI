@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart2, TrendingUp, Calendar, ShieldAlert, FileText } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import { apiFetch } from '../lib/api';
 
 export const HistoricalAnalytics: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('/api/analytics/historical-summary')
+    apiFetch('/api/analytics/historical-summary')
       .then(res => res.json())
       .then(resData => {
         setData(resData);

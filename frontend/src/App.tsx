@@ -10,6 +10,7 @@ import { HistoricalAnalytics } from './components/HistoricalAnalytics';
 import { AdminMonitoring } from './components/AdminMonitoring';
 import { DataProvenanceView } from './components/DataProvenanceView';
 import { WardDetailModal } from './components/WardDetailModal';
+import { apiFetch } from './lib/api';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<string>('authority');
@@ -18,7 +19,7 @@ export function App() {
 
   const handleScenarioChange = (scenario: string) => {
     setCurrentScenario(scenario);
-    fetch('/api/simulation/set-scenario', {
+    apiFetch('/api/simulation/set-scenario', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ scenario })

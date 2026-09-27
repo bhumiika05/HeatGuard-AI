@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Stethoscope, Activity, AlertTriangle, CheckCircle, ShieldCheck, PhoneCall, Building2 } from 'lucide-react';
+import { apiFetch } from '../lib/api';
 
 export const HealthcareDashboard: React.FC = () => {
   const [hospitals, setHospitals] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch('/api/hospitals')
+    apiFetch('/api/hospitals')
       .then(res => res.json())
       .then(data => {
         setHospitals(data || []);
