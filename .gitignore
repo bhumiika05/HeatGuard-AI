@@ -1,0 +1,19 @@
+# Python runtime files
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Local databases and logs
+*.db-journal
+*.sqlite-shm
+*.sqlite-wal
+*.log
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
